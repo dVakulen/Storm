@@ -1,0 +1,9 @@
+﻿BasicHttpBinding	A binding that is suitable for communication with WS-Basic Profile conformant Web Services like ASMX-based services. This binding uses HTTP as the transport and Text/XML as the message encoding.
+WSHttpBinding	A secure and interoperable binding that is suitable for non-duplex service contracts.
+WSDualHttpBinding	A secure and interoperable binding that is suitable for duplex service contracts or communication through SOAP intermediaries.
+WSFederationHttpBinding	A secure and interoperable binding that supports the WS-Federation protocol, enabling organizations that are in a federation to efficiently authenticate and authorize users.
+NetTcpBinding	A secure and optimized binding suitable for cross-machine communication between WCF applications
+NetNamedPipeBinding	A secure, reliable, optimized binding that is suitable for on-machine communication between WCF applications.
+NetMsmqBinding	A queued binding that is suitable for cross-machine communication between WCF applications.
+NetPeerTcpBinding	A binding that enables secure, multi-machine communication.
+MsmqIntegrationBinding	A binding that is suitable for cross-machine communication between a WCF application and existing MSMQ applications.
