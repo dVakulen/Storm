@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Storm.Config;
 
 namespace Storm
 {
@@ -10,7 +11,7 @@ namespace Storm
     {
         static void Main(string[] args)
         {
-            Storm.Config.Class1
+        //   Settings.CreateAppSettings();
         }
     }
 }

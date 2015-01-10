@@ -9,14 +9,19 @@ namespace Storm.Config
 {
     public class Settings
     {
+        private const string SectionName = "appSettings";
+
+        private const string ServerAdressKey = "serverAddress";
+        private static System.Configuration.Configuration Config;
+        
         public static void CreateAppSettings()
         {
             // Get the application configuration file.
-            System.Configuration.Configuration config =
+            Config =
               ConfigurationManager.OpenExeConfiguration(
                     ConfigurationUserLevel.None);
 
-            string sectionName = "appSettings";
+           // string sectionName = "appSettings";
 
             // Add an entry to appSettings.
             int appStgCnt =
@@ -26,24 +31,33 @@ namespace Storm.Config
             string newValue = DateTime.Now.ToLongDateString() +
               " " + DateTime.Now.ToLongTimeString();
 
-            config.AppSettings.Settings.Add(newKey, newValue);
+            Config.AppSettings.Settings.Add(newKey, newValue);
 
-            // Save the configuration file.
-            config.Save(ConfigurationSaveMode.Modified);
+            Config.Save(ConfigurationSaveMode.Modified);
 
-            // Force a reload of the changed section. This 
-            // makes the new values available for reading.
-            ConfigurationManager.RefreshSection(sectionName);
+            ConfigurationManager.RefreshSection(SectionName);
 
             // Get the AppSettings section.
             AppSettingsSection appSettingSection =
-              (AppSettingsSection)config.GetSection(sectionName);
-
+              (AppSettingsSection)Config.GetSection(SectionName);
+            Console.WriteLine(
+              appSettingSection.Settings["NewKey0"].Value);
+        
             Console.WriteLine();
             Console.WriteLine("Using GetSection(string).");
             Console.WriteLine("AppSettings section:");
             Console.WriteLine(
               appSettingSection.SectionInformation.GetRawXml());
+        }
+
+        public static string GetServerAddress()
+        {
+            return "net.pipe://localhost/Server";
+            AppSettingsSection appSettingSection =
+           (AppSettingsSection)Config.GetSection(SectionName);
+            Console.WriteLine(
+              appSettingSection.Settings["NewKey0"].Value);
+        
         }
 
 

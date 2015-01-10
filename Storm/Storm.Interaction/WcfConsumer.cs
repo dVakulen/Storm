@@ -5,31 +5,35 @@ using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+using Storm.Config;
 using Storm.Interfaces;
 
 namespace Storm.Interaction
 {
     [ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Reentrant, InstanceContextMode = InstanceContextMode.Single)]
-    public class WcfConsumer
+    public class WcfConsumer<T> where T : ICommunicationObject
     {
-        Guid _clientID;
-        ServiceHost _clientHost;
+        private string serverAddress;
+        Guid clientID;
+        ServiceHost clientHost;
         public WcfConsumer()
         {
-            _clientID = Guid.NewGuid();
-            _clientHost = new ServiceHost(this);
-
+            clientID = Guid.NewGuid();
+            clientHost = new ServiceHost(this);
+            serverAddress = Settings.GetServerAddress();
             //  _clientHost.AddServiceEndpoint((typeof(IFromServerToClientMessages)), new NetNamedPipeBinding(), "net.pipe://localhost/Client_" + _clientID.ToString());
             //  _clientHost.Open();
         }
-        public void Register(Guid clientID)
+
+
+        public void Execute(Action<T> action)
         {
-            using (ChannelFactory<IFromClientToServerMessages> factory = new ChannelFactory<IFromClientToServerMessages>(new NetNamedPipeBinding(), new EndpointAddress("net.pipe://localhost/Server")))
+            using (ChannelFactory<T> factory = new ChannelFactory<T>(new NetNamedPipeBinding(), new EndpointAddress(serverAddress)))
             {
-                IFromClientToServerMessages clientToServerChannel = factory.CreateChannel();
+                T clientToServerChannel = factory.CreateChannel();
                 try
                 {
-                    clientToServerChannel.Register(clientID);
+                    action.Invoke(clientToServerChannel);
                 }
                 catch (Exception ex)
                 {
@@ -37,11 +41,10 @@ namespace Storm.Interaction
                 }
                 finally
                 {
-                    CloseChannel((ICommunicationObject)clientToServerChannel);
+                    CloseChannel(clientToServerChannel);
                 }
             }
         }
-
         private void CloseChannel(ICommunicationObject channel)
         {
             try
@@ -56,6 +59,10 @@ namespace Storm.Interaction
             {
                 channel.Abort();
             }
+        }
+        private void CloseChannel(T channel)
+        {
+            CloseChannel((ICommunicationObject)channel);
         }
 
     }
