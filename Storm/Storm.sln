@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Storm.Interaction", "Storm.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Storm.Config", "Storm.Config\Storm.Config.csproj", "{0350BE92-25BC-42B8-BD64-6E1F1DE2A135}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Storm.Utilities", "Storm.Utilities\Storm.Utilities.csproj", "{DDFBC74D-79AB-43F5-9D17-DB3157D5623B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{0350BE92-25BC-42B8-BD64-6E1F1DE2A135}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0350BE92-25BC-42B8-BD64-6E1F1DE2A135}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0350BE92-25BC-42B8-BD64-6E1F1DE2A135}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDFBC74D-79AB-43F5-9D17-DB3157D5623B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDFBC74D-79AB-43F5-9D17-DB3157D5623B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDFBC74D-79AB-43F5-9D17-DB3157D5623B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDFBC74D-79AB-43F5-9D17-DB3157D5623B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

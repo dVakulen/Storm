@@ -40,14 +40,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Bindings\BindingFactory.cs" />
+    <Compile Include="Bindings\IBindingsFactory.cs" />
+    <Compile Include="Bindings\NamedPipeBindingFactory.cs" />
+    <Compile Include="Bindings\NetTcpBindingFactory.cs" />
+    <Compile Include="WcfConsumer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Storm.Config\Storm.Config.csproj">
+      <Project>{0350be92-25bc-42b8-bd64-6e1f1de2a135}</Project>
+      <Name>Storm.Config</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Storm.Interfaces\Storm.Interfaces.csproj">
       <Project>{4496527d-d2bd-4422-8e69-b243a6ab5aa7}</Project>
       <Name>Storm.Interfaces</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="BindingTypes.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

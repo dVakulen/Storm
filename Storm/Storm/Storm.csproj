@@ -12,6 +12,7 @@
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <NuGetPackageImportStamp>c855321f</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -35,6 +36,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,14 +49,41 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Storm.Config\Storm.Config.csproj">
       <Project>{0350be92-25bc-42b8-bd64-6e1f1de2a135}</Project>
       <Name>Storm.Config</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Storm.Core\Storm.Core.csproj">
+      <Project>{877a405c-8b2c-4d87-b638-0374acbafe55}</Project>
+      <Name>Storm.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Storm.Interaction\Storm.Interaction.csproj">
+      <Project>{003b5360-20d9-4d2c-b580-03146b5d083c}</Project>
+      <Name>Storm.Interaction</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Storm.Interfaces\Storm.Interfaces.csproj">
+      <Project>{4496527d-d2bd-4422-8e69-b243a6ab5aa7}</Project>
+      <Name>Storm.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Storm.Utilities\Storm.Utilities.csproj">
+      <Project>{ddfbc74d-79ab-43f5-9d17-db3157d5623b}</Project>
+      <Name>Storm.Utilities</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="FodyWeavers.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\Fody.1.26.1\build\Fody.targets" Condition="Exists('..\packages\Fody.1.26.1\build\Fody.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Fody.1.26.1\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.1.26.1\build\Fody.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

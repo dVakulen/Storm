@@ -13,8 +13,11 @@ namespace Storm.Interaction.Bindings
         object GetBinding();
     }
 
-    public interface IBindingsFactory<out T> : IBindingsFactory where T : Binding
+    public interface IBindingsFactory<out T> where T : Binding
     {
         T GetBinding();
+
+        string GetEndpointPrefics();
+
     }
 }

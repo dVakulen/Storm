@@ -13,29 +13,33 @@ using Storm.Interfaces;
 namespace Storm.Interaction
 {
     [ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Reentrant, InstanceContextMode = InstanceContextMode.Single)]
-    public class WcfConsumer<T, TFactory, TBinding>
-        where T : ICommunicationObject
-        where TBinding : Binding
-        where TFactory : IBindingsFactory<TBinding>
+    public class WcfConsumer<TClientInterface, TFactory>
+        //   where T : ICommunicationObject
+        where TFactory : IBindingsFactory<Binding>
     {
         private string serverAddress;
         readonly Guid clientID;
         ServiceHost clientHost;
         private readonly TFactory BindingsFactory;
-        public WcfConsumer(TFactory factory)
+        public WcfConsumer(TFactory factory, string consumerAddress, object serviceSingleton)
         {
             BindingsFactory = factory;
             clientID = Guid.NewGuid();
-            clientHost = new ServiceHost(this);
-            serverAddress = Settings.GetServerAddress();
-            //  _clientHost.AddServiceEndpoint((typeof(IFromServerToClientMessages)), new NetNamedPipeBinding(), "net.pipe://localhost/Client_" + _clientID.ToString());
+            clientHost = new ServiceHost(serviceSingleton);
+            //  serverAddress = Settings.GetServerAddress();
+            clientHost.AddServiceEndpoint((typeof(TClientInterface)), new NetNamedPipeBinding(), consumerAddress);//"net.pipe://localhost/Client_" + _clientID.ToString()
             //  _clientHost.Open();
         }
 
-
-        public void Execute(Action<T> action)
+        public void Start()
         {
-            using (ChannelFactory<T> factory = new ChannelFactory<T>(new NetNamedPipeBinding(), new EndpointAddress(serverAddress))) //BindingsFactory.get
+           // if (clientHost == null) throw new TypeInitializationException("WcfConsumer ", "must be initialized before accesing");
+            clientHost.Open();
+        }
+
+        public  void Execute<T>(Action<T> action, string endpointAddress) 
+        {
+            using (ChannelFactory<T> factory = new ChannelFactory<T>(new NetNamedPipeBinding(), new EndpointAddress(endpointAddress))) //BindingsFactory.get
             {
                 T clientToServerChannel = factory.CreateChannel();
                 try
@@ -67,7 +71,7 @@ namespace Storm.Interaction
                 channel.Abort();
             }
         }
-        private void CloseChannel(T channel)
+        private void CloseChannel(object channel)
         {
             CloseChannel((ICommunicationObject)channel);
         }

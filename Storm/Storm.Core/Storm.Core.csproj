@@ -39,7 +39,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Abstract\IBasicBolt.cs" />
+    <Compile Include="Abstract\IComponent.cs" />
+    <Compile Include="Abstract\IStormTuple.cs" />
+    <Compile Include="Implementation\BasicBolt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
