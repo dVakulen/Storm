@@ -26,15 +26,18 @@ namespace Storm.Interaction
             BindingsFactory = factory;
             clientID = Guid.NewGuid();
             clientHost = new ServiceHost(serviceSingleton);
-            //  serverAddress = Settings.GetServerAddress();
             clientHost.AddServiceEndpoint((typeof(TClientInterface)), new NetNamedPipeBinding(), consumerAddress);//"net.pipe://localhost/Client_" + _clientID.ToString()
-            //  _clientHost.Open();
         }
 
         public void Start()
         {
            // if (clientHost == null) throw new TypeInitializationException("WcfConsumer ", "must be initialized before accesing");
             clientHost.Open();
+        }
+
+        public void Stop()
+        {
+            clientHost.Close();
         }
 
         public  void Execute<T>(Action<T> action, string endpointAddress) 
