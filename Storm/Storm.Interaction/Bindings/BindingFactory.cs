@@ -8,12 +8,11 @@ using System.Threading.Tasks;
 
 namespace Storm.Interaction.Bindings
 {
-   public abstract class BindingFactory<T> : IBindingsFactory<T> where T : Binding,new()
+    public abstract class BindingFactory<T> : IBindingsFactory<T> where T : Binding, new()
     {
         public T GetBinding()
         {
             return new T();
-
         }
 
         public abstract string GetEndpointPrefics();

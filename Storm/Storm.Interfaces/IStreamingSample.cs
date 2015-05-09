@@ -12,14 +12,14 @@ namespace Storm.Interfaces
     public interface ITestSample//todo : remove
     {
         [OperationContract]
-        string GetString(string data);
+        string Getstring(string data);
     }
 
     [ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Reentrant, InstanceContextMode = InstanceContextMode.Single)]
     public class TestSample : ITestSample //todo : remove
     {
 
-        public string GetString(string data)
+        public string Getstring(string data)
         {
             return data + "processed";
         }

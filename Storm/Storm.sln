@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Storm", "Storm\Storm.csproj", "{CBAF9730-FB8A-4759-919D-E0E37D1B9461}"
 EndProject
@@ -16,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Storm.Utilities", "Storm.Utilities\Storm.Utilities.csproj", "{DDFBC74D-79AB-43F5-9D17-DB3157D5623B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Storm.Worker", "Storm.Worker\Storm.Worker.csproj", "{7BA1CE9C-B3EF-4450-AD46-AB84FB101BDA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Storm.Topology", "Storm.Topology\Storm.Topology.csproj", "{8165603E-18E6-4DB6-A07D-5AB7385B7C39}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{7BA1CE9C-B3EF-4450-AD46-AB84FB101BDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7BA1CE9C-B3EF-4450-AD46-AB84FB101BDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7BA1CE9C-B3EF-4450-AD46-AB84FB101BDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8165603E-18E6-4DB6-A07D-5AB7385B7C39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8165603E-18E6-4DB6-A07D-5AB7385B7C39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8165603E-18E6-4DB6-A07D-5AB7385B7C39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8165603E-18E6-4DB6-A07D-5AB7385B7C39}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

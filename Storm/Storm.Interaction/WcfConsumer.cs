@@ -40,9 +40,12 @@ namespace Storm.Interaction
             clientHost.Close();
         }
 
-        public  void Execute<T>(Action<T> action, string endpointAddress) 
+        public  void Execute<T>(Action<T> action, string endpointAddress)
         {
-            using (ChannelFactory<T> factory = new ChannelFactory<T>(new NetNamedPipeBinding(), new EndpointAddress(endpointAddress))) //BindingsFactory.get
+            //var binding = BindingsFactory.GetBinding();
+            var binding = new NetNamedPipeBinding();
+            binding.MaxReceivedMessageSize = int.MaxValue;
+            using (ChannelFactory<T> factory = new ChannelFactory<T>(binding, new EndpointAddress(endpointAddress))) //BindingsFactory.get
             {
                 T clientToServerChannel = factory.CreateChannel();
                 try
