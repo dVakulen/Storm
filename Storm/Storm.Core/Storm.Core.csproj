@@ -41,9 +41,52 @@
   <ItemGroup>
     <Compile Include="Abstract\IBasicBolt.cs" />
     <Compile Include="Abstract\IComponent.cs" />
+    <Compile Include="Abstract\ISpout.cs" />
+    <Compile Include="Abstract\ISpoutOutputCollector.cs" />
     <Compile Include="Abstract\IStormTuple.cs" />
+    <Compile Include="App_Packages\LibLog\LibLog.cs" />
+    <Compile Include="Common\CachedExpressionCompiler.cs" />
+    <Compile Include="Common\ExpressionUtil\BinaryExpressionFingerprint.cs" />
+    <Compile Include="Common\ExpressionUtil\CachedExpressionCompiler.cs" />
+    <Compile Include="Common\ExpressionUtil\ConditionalExpressionFingerprint.cs" />
+    <Compile Include="Common\ExpressionUtil\ConstantExpressionFingerprint.cs" />
+    <Compile Include="Common\ExpressionUtil\DefaultExpressionFingerprint.cs" />
+    <Compile Include="Common\ExpressionUtil\ExpressionFingerprint.cs" />
+    <Compile Include="Common\ExpressionUtil\ExpressionFingerprintChain.cs" />
+    <Compile Include="Common\ExpressionUtil\FingerprintingExpressionVisitor.cs" />
+    <Compile Include="Common\ExpressionUtil\HashCodeCombiner.cs" />
+    <Compile Include="Common\ExpressionUtil\Hoisted.cs" />
+    <Compile Include="Common\ExpressionUtil\HoistingExpressionVisitor.cs" />
+    <Compile Include="Common\ExpressionUtil\IndexExpressionFingerprint.cs" />
+    <Compile Include="Common\ExpressionUtil\LambdaExpressionFingerprint.cs" />
+    <Compile Include="Common\ExpressionUtil\MemberExpressionFingerprint.cs" />
+    <Compile Include="Common\ExpressionUtil\MethodCallExpressionFingerprint.cs" />
+    <Compile Include="Common\ExpressionUtil\ParameterExpressionFingerprint.cs" />
+    <Compile Include="Common\ExpressionUtil\TypeBinaryExpressionFingerprint.cs" />
+    <Compile Include="Common\ExpressionUtil\UnaryExpressionFingerprint.cs" />
+    <Compile Include="Common\GlobalJobFilterCollection.cs" />
+    <Compile Include="Common\IJobFilter.cs" />
+    <Compile Include="Common\IJobFilterProvider.cs" />
+    <Compile Include="Common\JobFilter.cs" />
+    <Compile Include="Common\JobFilterAttribute.cs" />
+    <Compile Include="Common\JobFilterProviderCollection.cs" />
+    <Compile Include="Common\JobFilterScope.cs" />
+    <Compile Include="Common\JobLoadException.cs" />
+    <Compile Include="Common\ReflectedAttributeCache.cs" />
+    <Compile Include="Common\TypeExtensions.cs" />
     <Compile Include="Implementation\BasicBolt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Task\GeneralTopologyContext.cs" />
+    <Compile Include="Task\IBolt.cs" />
+    <Compile Include="Task\IErrorReporter.cs" />
+    <Compile Include="Task\IMetricsContext.cs" />
+    <Compile Include="Task\IOutputCollector.cs" />
+    <Compile Include="Task\OutputCollector.cs" />
+    <Compile Include="Task\ShellBolt.cs" />
+    <Compile Include="Task\TopologyContext.cs" />
+    <Compile Include="Task\WorkerTopologyContext.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -12,7 +12,7 @@ namespace Storm.Core.Abstract
             Returns the task ids that received the tuples.
         */
         List<int> Emit(string streamId, List<object> tuple, object messageId);
-        void EmitDirect(int taskId, String streamId, List<object> tuple, object messageId);
+        void EmitDirect(int taskId, string streamId, List<object> tuple, object messageId);
         void ReportError(Exception error);
     }
 }

@@ -21,7 +21,7 @@ namespace Storm.Interaction
         readonly Guid clientID;
         ServiceHost clientHost;
         private readonly TFactory BindingsFactory;
-        public WcfConsumer(TFactory factory, string consumerAddress, object serviceSingleton)
+        public WcfConsumer(TFactory factory, string consumerAddress, TClientInterface serviceSingleton)
         {
             BindingsFactory = factory;
             clientID = Guid.NewGuid();
@@ -54,7 +54,7 @@ namespace Storm.Interaction
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine(ex);
+                    Debug.WriteLine(ex); //todo: logger
                 }
                 finally
                 {
@@ -62,6 +62,7 @@ namespace Storm.Interaction
                 }
             }
         }
+
         private void CloseChannel(ICommunicationObject channel)
         {
             try
@@ -70,13 +71,14 @@ namespace Storm.Interaction
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
+                Debug.WriteLine(ex);//todo: logger
             }
             finally
             {
                 channel.Abort();
             }
         }
+
         private void CloseChannel(object channel)
         {
             CloseChannel((ICommunicationObject)channel);

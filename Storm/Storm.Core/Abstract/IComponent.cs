@@ -23,7 +23,7 @@ namespace Storm.Core.Abstract
          * topology using {@link TopologyBuilder}
          *
          */
-        //  Map<String, Object> getComponentConfiguration();
+        //  Map<string, Object> getComponentConfiguration();
 
     }
 }
