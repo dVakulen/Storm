@@ -13,7 +13,7 @@ using Storm.Interfaces;
 namespace Storm.Interaction
 {
     [ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Reentrant, InstanceContextMode = InstanceContextMode.Single)]
-    public class WcfConsumer<TClientInterface, TFactory>
+    public class WcfConsumer<TFactory>
         //   where T : ICommunicationObject
         where TFactory : IBindingsFactory<Binding>
     {
@@ -21,23 +21,10 @@ namespace Storm.Interaction
         readonly Guid clientID;
         ServiceHost clientHost;
         private readonly TFactory BindingsFactory;
-        public WcfConsumer(TFactory factory, string consumerAddress, TClientInterface serviceSingleton)
+        public WcfConsumer(TFactory factory)
         {
             BindingsFactory = factory;
             clientID = Guid.NewGuid();
-            clientHost = new ServiceHost(serviceSingleton);
-            clientHost.AddServiceEndpoint((typeof(TClientInterface)), new NetNamedPipeBinding(), consumerAddress);//"net.pipe://localhost/Client_" + _clientID.ToString()
-        }
-
-        public void Start()
-        {
-           // if (clientHost == null) throw new TypeInitializationException("WcfConsumer ", "must be initialized before accesing");
-            clientHost.Open();
-        }
-
-        public void Stop()
-        {
-            clientHost.Close();
         }
 
         public  void Execute<T>(Action<T> action, string endpointAddress)

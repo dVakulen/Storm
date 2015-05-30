@@ -65,15 +65,13 @@ namespace Storm
         private static void Test1()
         {
             var clientID = Guid.NewGuid();
-            var client = new WcfConsumer<ITestASmLoader, NamedPipeBindingFactory>(new NamedPipeBindingFactory(),
-                "net.pipe://localhost/Client_" + clientID.ToString(), new TestAsm());
-            client.Start();
+            var client = new WcfConsumer<NamedPipeBindingFactory>(new NamedPipeBindingFactory());
 
 
             var clientID1 = Guid.NewGuid();
-            var client1 = new WcfConsumer<ITestASmLoader, NamedPipeBindingFactory>(new NamedPipeBindingFactory(),
+            var host = new WcfHost<ITestASmLoader, NamedPipeBindingFactory>(new NamedPipeBindingFactory(),
                 "net.pipe://localhost/Client_" + clientID1.ToString(), new TestAsm());
-            client1.Start();
+            host.Start();
 
             client.Execute<ITestASmLoader>(sample =>
             {
