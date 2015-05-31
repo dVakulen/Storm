@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.ServiceModel;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Helios.MultiNodeTests.TestKit;
 using Storm.Config;
 using Storm.Core.Abstract;
 using Storm.Interaction;
@@ -60,15 +62,16 @@ namespace Storm
             //     Console.WriteLine(sample.Getstring("w"));
             // },"net.pipe://localhost/Client_" + clientID1.ToString());
 
-            Test1();
+            TestHelios();
             //   Settings.CreateAppSettings();
         }
 
-        private static void Test1()
+
+
+        private static void Test2()
         {
             var clientID = Guid.NewGuid();
-            var client = new WcfConsumer<NetTcpBindingFactory>(new NetTcpBindingFactory());
-
+          
 
             var clientID1 = Guid.NewGuid();
 
@@ -85,12 +88,76 @@ namespace Storm
             //    "net.pipe://localhost/Client_" + clientID1.ToString(), new TestAsm());
             //host.Start();
 
-            client.Execute<ITaskExecutor>(e =>
+            Stopwatch stopwatch = new Stopwatch();
+            var client = new WcfPermanentConsumer<ITaskExecutor, NetTcpBindingFactory>(new NetTcpBindingFactory(), hostEndpoint);
+            client.OpenConnection();
+            stopwatch.Start();
+            for (int i = 0; i < 30000; i++)
             {
-                e.Execute("tests");
-            }, hostEndpoint);
+                client.Execute(e =>
+                {
+                    e.Execute("tests " + i);
+                });
+            }
+            stopwatch.Stop();
+            Console.WriteLine(stopwatch.Elapsed);
         }
+        static void TestHelios()
+        {
+            var test = new TcpThroughputHarness();
+            Console.WriteLine("Client Send --> Server Receive --> Server Send --> Client Receive");
+            var generations = 3;
+            var threadCount = Environment.ProcessorCount;
+            for (int i = 0; i < generations; i++)
+            {
+                var workItems = 10000 * (int)Math.Pow(10, i);
+                Console.WriteLine("Testing for {0} 200b messages", workItems);
+                Console.WriteLine(TimeSpan.FromMilliseconds(
+                    Enumerable.Range(0, 6).Select(_ =>
+                    {
+                        test.SetUp();
+                        var sw = Stopwatch.StartNew();
+                        test.RunBenchmark(workItems);
+                        var elapsed = sw.ElapsedMilliseconds;
+                        test.CleanUp();
+                        return elapsed;
+                    }).Skip(1).Average()));
+            }
+        }
+        private static void Test1()
+        {
+            var clientID = Guid.NewGuid();
+            var client = new WcfConsumer<NetTcpBindingFactory>(new NetTcpBindingFactory());
 
+
+            var clientID1 = Guid.NewGuid();
+
+            var bindingFact = new NamedPipeBindingFactory();
+            var hostEndpoint = bindingFact.GetEndpointPrefics() + "localhost/TestHost";
+            var cansellationTOkenSOurce = new CancellationTokenSource();
+
+            var host = new WcfHost<ITaskExecutor, NetTcpBindingFactory>(new NetTcpBindingFactory(),
+                 hostEndpoint, new TaskExecutor());
+            var executor = new Executor(new ExecutorConfig(hostEndpoint, cansellationTOkenSOurce.Token, host));
+            //host.Start();
+            executor.Run();
+            //var host = new WcfHost<ITestASmLoader, NamedPipeBindingFactory>(new NamedPipeBindingFactory(),
+            //    "net.pipe://localhost/Client_" + clientID1.ToString(), new TestAsm());
+            //host.Start();
+
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            for (int i = 0; i < 10000; i++)
+            {
+                client.Execute<ITaskExecutor>(e =>
+                {
+                    e.Execute("tests " + i );
+                }, hostEndpoint);
+            }
+            stopwatch.Stop();
+            Console.WriteLine(stopwatch.Elapsed);
+        }
+        
         private static void Proc()
         {
 
@@ -137,6 +204,35 @@ namespace Storm
         public byte[] GetAsm(string data)
         {
             return AssemblyHandling.LoadAssemblyBytes(Assembly.GetExecutingAssembly().Location); //(new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath
+        }
+    }
+    public class TcpThroughputHarness : MultiNodeTest
+    {
+        public override TransportType TransportType
+        {
+            get { return TransportType.Tcp; }
+        }
+
+        public override bool HighPerformance
+        {
+            get { return true; }
+        }
+
+        public void RunBenchmark(int messages)
+        {
+            //arrange
+            StartServer(); //uses an "echo server" callback
+            StartClient();
+            var messageLength = 200;
+            var sends = messages;
+            var message = System.Text.Encoding.UTF8.GetBytes("sddasd");//  new byte[messageLength];
+            //act
+            for (var i = 0; i < sends; i++)
+            {
+                Send(message);
+            }
+            //  WaitUntilNMessagesReceived(sends, TimeSpan.FromMinutes(3)); //set a really long timeout, just in case
+
         }
     }
 }

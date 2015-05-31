@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Guard.cs" />
     <Compile Include="Plugins\BasePlugin.cs" />
     <Compile Include="Plugins\IPlugin.cs" />
     <Compile Include="Plugins\IPluginFinder.cs" />

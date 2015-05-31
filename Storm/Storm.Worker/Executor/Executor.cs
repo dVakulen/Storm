@@ -26,10 +26,17 @@ namespace Storm.Worker.Executor
 
         public void Run()
         {
+            //var th = new Thread(() =>
+            //{
+            //    _wcfHost.Start();
+
+            //});
+            //th.Priority =ThreadPriority.Highest;
+            //th.Start();
             Task.Run(() =>
             {
                 _wcfHost.Start();
-              
+
             }, _cancellationToken);
         }
 

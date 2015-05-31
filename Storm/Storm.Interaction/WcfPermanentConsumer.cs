@@ -13,7 +13,7 @@ using Storm.Interfaces;
 namespace Storm.Interaction
 {
     [ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Reentrant, InstanceContextMode = InstanceContextMode.Single)]
-    public class WcfConsumer<TFactory>
+    public class WcfPermanentConsumer<T, TFactory>
         //   where T : ICommunicationObject
         where TFactory : IBindingsFactory<Binding>
     {
@@ -21,38 +21,34 @@ namespace Storm.Interaction
         readonly Guid clientID;
         ServiceHost clientHost;
         private readonly TFactory BindingsFactory;
-        public WcfConsumer(TFactory factory)
+        private readonly string _endpointAdress ;
+        private ChannelFactory<T> factory;
+        private T channel;
+        public WcfPermanentConsumer(TFactory factory, string endpointAdress)
         {
             BindingsFactory = factory;
             clientID = Guid.NewGuid();
+            _endpointAdress = endpointAdress;
         }
 
-        public  void Execute<T>(Action<T> action, string endpointAddress)
+        public void OpenConnection()
         {
-            var binding = BindingsFactory.GetBinding();
-            using (ChannelFactory<T> factory = new ChannelFactory<T>(binding, new EndpointAddress(endpointAddress)))
-            {
-                T clientToServerChannel = factory.CreateChannel();
-                try
-                {
-                    action.Invoke(clientToServerChannel);
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex); //todo: logger
-                }
-                finally
-                {
-                    CloseChannel(clientToServerChannel);
-                }
-            }
+             factory = new ChannelFactory<T>(BindingsFactory.GetBinding(),
+                new EndpointAddress(_endpointAdress));
+            channel = factory.CreateChannel();
+         ( (ICommunicationObject) channel).Open();
+
+        }
+        public void Execute(Action<T> action)
+        {
+           action.Invoke(channel);
         }
 
-        private void CloseChannel(ICommunicationObject channel)
+        public void CloseChannel(ICommunicationObject  channelToCLose)
         {
             try
             {
-                channel.Close();
+                channelToCLose.Close();
             }
             catch (Exception ex)
             {
@@ -60,13 +56,15 @@ namespace Storm.Interaction
             }
             finally
             {
-                channel.Abort();
+              //  factory.
+                channelToCLose.Abort();
             }
         }
 
-        private void CloseChannel(object channel)
+        public void CloseConnection ()
         {
             CloseChannel((ICommunicationObject)channel);
+            //factory.BeginClose();
         }
 
     }

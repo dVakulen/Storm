@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Helios">
+      <HintPath>..\packages\Helios.1.4.0\lib\net45\Helios.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.ServiceModel" />
@@ -45,6 +48,8 @@
     <Compile Include="Bindings\NamedPipeBindingFactory.cs" />
     <Compile Include="Bindings\NetTcpBindingFactory.cs" />
     <Compile Include="IWcfHost.cs" />
+    <Compile Include="TCP\Helios\HeliosServer.cs" />
+    <Compile Include="WcfPermanentConsumer.cs" />
     <Compile Include="WcfHost.cs" />
     <Compile Include="WcfConsumer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -62,6 +67,10 @@
   <ItemGroup>
     <Content Include="BindingTypes.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

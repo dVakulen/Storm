@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ServiceModel;
+using System.Threading;
 
 namespace Storm.Interfaces
 {
@@ -14,12 +15,15 @@ namespace Storm.Interfaces
         void Execute(string text);
     }
 
-    [ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Reentrant, InstanceContextMode = InstanceContextMode.Single)]
+    [ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Single, InstanceContextMode = InstanceContextMode.Single, AddressFilterMode = AddressFilterMode.Any)]
     public class TaskExecutor : ITaskExecutor
     {
         public void Execute(string text)
         {
-            Console.WriteLine("executed " + text);
+           // Thread.Sleep(5);
+        //   Console.WriteLine("executed " + text);
+          //  var z = "executed " + text;
+         //   var b = z;
         }
     }
 }
