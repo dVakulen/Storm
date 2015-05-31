@@ -13,7 +13,7 @@ using Storm.Interfaces;
 namespace Storm.Interaction
 {
     [ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Reentrant, InstanceContextMode = InstanceContextMode.Single)]
-    public class WcfHost<TClientInterface, TFactory>
+    public class WcfHost<TClientInterface, TFactory> : IWcfHost
         where TFactory : IBindingsFactory<Binding>
     {
         ServiceHost clientHost;
@@ -22,7 +22,7 @@ namespace Storm.Interaction
         {
             BindingsFactory = factory;
             clientHost = new ServiceHost(serviceSingleton);
-            clientHost.AddServiceEndpoint((typeof(TClientInterface)), new NetNamedPipeBinding(), hostAddress);//"net.pipe://localhost/Client_" + _clientID.ToString()
+            clientHost.AddServiceEndpoint((typeof(TClientInterface)), BindingsFactory.GetBinding(), hostAddress);//"net.pipe://localhost/Client_" + _clientID.ToString()
         }
 
         public void Start()

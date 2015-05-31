@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Storm.Worker.Task
+namespace Storm.Worker.StormTask
 {
     public interface IStormTask //<IBolt>
     {

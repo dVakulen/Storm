@@ -72,6 +72,10 @@
       <Project>{ddfbc74d-79ab-43f5-9d17-db3157d5623b}</Project>
       <Name>Storm.Utilities</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Storm.Worker\Storm.Worker.csproj">
+      <Project>{7ba1ce9c-b3ef-4450-ad46-ab84fb101bda}</Project>
+      <Name>Storm.Worker</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="FodyWeavers.xml" />

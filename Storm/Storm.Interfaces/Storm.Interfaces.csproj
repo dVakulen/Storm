@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ITaskExecutor.cs" />
     <Compile Include="IFromServerToClientMessages.cs" />
     <Compile Include="IFromClientToServerMessages.cs" />
     <Compile Include="IStreamingSample.cs" />

@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Storm.Interaction.Bindings
 {
-    public interface IBindingsFactory
-    {
-        object GetBinding();
-    }
+    //public interface IBindingsFactory
+    //{
+    //    object GetBinding();
+    //}
 
     public interface IBindingsFactory<out T> where T : Binding
     {

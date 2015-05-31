@@ -44,6 +44,7 @@
     <Compile Include="Bindings\IBindingsFactory.cs" />
     <Compile Include="Bindings\NamedPipeBindingFactory.cs" />
     <Compile Include="Bindings\NetTcpBindingFactory.cs" />
+    <Compile Include="IWcfHost.cs" />
     <Compile Include="WcfHost.cs" />
     <Compile Include="WcfConsumer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

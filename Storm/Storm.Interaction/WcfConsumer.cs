@@ -29,9 +29,9 @@ namespace Storm.Interaction
 
         public  void Execute<T>(Action<T> action, string endpointAddress)
         {
-            //var binding = BindingsFactory.GetBinding();
-            var binding = new NetNamedPipeBinding();
-            binding.MaxReceivedMessageSize = int.MaxValue;
+            var binding = BindingsFactory.GetBinding();
+            // var binding = new NetNamedPipeBinding();
+          //  binding.MaxReceivedMessageSize = int.MaxValue;
             using (ChannelFactory<T> factory = new ChannelFactory<T>(binding, new EndpointAddress(endpointAddress))) //BindingsFactory.get
             {
                 T clientToServerChannel = factory.CreateChannel();
