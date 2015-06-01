@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Helios.MultiNodeTests.TestKit;
+using ServiceStack.Text;
 using Storm.Config;
 using Storm.Core.Abstract;
 using Storm.Interaction;
@@ -104,6 +105,12 @@ namespace Storm
         }
         static void TestHelios()
         {
+            var ddd = JsonPrimitives.Create(2);
+            var z = new JsonSerializer<JsonPrimitives>();
+            var dssd = JsonSerializer.SerializeToString(ddd);
+            var serializedString = z.SerializeToString(ddd);
+
+
             var test = new TcpThroughputHarness();
             Console.WriteLine("Client Send --> Server Receive --> Server Send --> Client Receive");
             var generations = 3;
@@ -220,19 +227,47 @@ namespace Storm
 
         public void RunBenchmark(int messages)
         {
+            
             //arrange
             StartServer(); //uses an "echo server" callback
-            StartClient();
+            var z = new HeliosClient();
+            z.SetUp(this._server.Local);
+            z.StartClient();
             var messageLength = 200;
             var sends = messages;
             var message = System.Text.Encoding.UTF8.GetBytes("sddasd");//  new byte[messageLength];
             //act
             for (var i = 0; i < sends; i++)
             {
-                Send(message);
+                z.Send(message);
             }
-            //  WaitUntilNMessagesReceived(sends, TimeSpan.FromMinutes(3)); //set a really long timeout, just in case
+             z.WaitUntilNMessagesReceived(sends, TimeSpan.FromMinutes(3)); //set a really long timeout, just in case
 
+        }
+    }
+
+
+    public class JsonPrimitives
+    {
+        public int Int { get; set; }
+        public long Long { get; set; }
+        public float Float { get; set; }
+        public double Double { get; set; }
+        public bool Boolean { get; set; }
+        public DateTime DateTime { get; set; }
+        public string NullString { get; set; }
+
+        public static JsonPrimitives Create(int i)
+        {
+            return new JsonPrimitives
+            {
+                Int = i,
+                Long = i,
+                Float = i,
+                Double = i,
+                Boolean = i % 2 == 0,
+                DateTime = DateTimeExtensions.FromUnixTimeMs(1),
+            };
         }
     }
 }

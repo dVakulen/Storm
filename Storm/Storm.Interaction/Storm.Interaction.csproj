@@ -33,6 +33,9 @@
     <Reference Include="Helios">
       <HintPath>..\packages\Helios.1.4.0\lib\net45\Helios.dll</HintPath>
     </Reference>
+    <Reference Include="ServiceStack.Text">
+      <HintPath>..\packages\ServiceStack.Text.4.0.40\lib\net40\ServiceStack.Text.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.ServiceModel" />
@@ -48,6 +51,7 @@
     <Compile Include="Bindings\NamedPipeBindingFactory.cs" />
     <Compile Include="Bindings\NetTcpBindingFactory.cs" />
     <Compile Include="IWcfHost.cs" />
+    <Compile Include="TCP\Helios\HeliosClient.cs" />
     <Compile Include="TCP\Helios\HeliosServer.cs" />
     <Compile Include="WcfPermanentConsumer.cs" />
     <Compile Include="WcfHost.cs" />

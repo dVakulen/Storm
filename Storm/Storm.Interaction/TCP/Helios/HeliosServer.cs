@@ -41,24 +41,15 @@ namespace Helios.MultiNodeTests.TestKit
 
         public virtual IConnectionConfig Config { get { return new DefaultConnectionConfig(); } }
 
-        private IConnectionFactory _clientConnectionFactory;
-
         public void SetUp()
         {
-            if (!HighPerformance)
-            {
-                ClientSendBuffer = new ConcurrentCircularBuffer<NetworkData>(BufferSize);
-                ClientReceiveBuffer = new ConcurrentCircularBuffer<NetworkData>(BufferSize);
-                ServerReceiveBuffer = new ConcurrentCircularBuffer<NetworkData>(BufferSize);
-            }
-            ClientReceived = new AtomicCounter(0);
             ServerReceived = new AtomicCounter(0);
            
 
             _clientExecutor = new TryCatchExecutor(exception => {});
             _serverExecutor = new TryCatchExecutor(exception => {});
             var serverBootstrap = new ServerBootstrap()
-                   .WorkerThreads(2)
+                   .WorkerThreads(1)
                    .Executor(_serverExecutor)
                    .SetTransport(TransportType)
                    .SetEncoder(Encoder)
@@ -68,22 +59,11 @@ namespace Helios.MultiNodeTests.TestKit
                    .Build();
 
             _server = serverBootstrap.NewConnection(Node.Loopback());
-
-            _clientConnectionFactory = new ClientBootstrap()
-                .Executor(_clientExecutor)
-                .SetTransport(TransportType)
-                .SetEncoder(Encoder)
-                .SetDecoder(Decoder)
-                .SetAllocator(Allocator)
-                .SetConfig(Config)
-                .Build();
         }
 
         public void CleanUp()
         {
-            _client.Close();
             _server.Close();
-            _client = null;
             _server = null;
         }
 
@@ -118,31 +98,12 @@ namespace Helios.MultiNodeTests.TestKit
             _server.Open();
         }
 
-        protected void StartClient()
-        {
-            if (!_server.IsOpen()) throw new HeliosException("Server is not started yet. Cannot start client yet.");
-            _client = _clientConnectionFactory.NewConnection(_server.Local);
-            _client.Receive += (data, channel) =>
-            {
-                //if (!HighPerformance)
-                //{
-                //    ClientReceiveBuffer.Add(data);
-                //}
-                ClientReceived.GetAndIncrement();
-            };
-            _client.OnConnection += (address, channel) => channel.BeginReceive();
-           // _client.OnError += (exception, connection) => _clientExecutor.Exceptions.Add(exception);
-            _client.Open();
-        }
 
         protected void Send(byte[] data)
         {
-            if (_client == null)
-                StartClient();
             var networkData = NetworkData.Create(_server.Local, data, data.Length);
             if(!HighPerformance)
                 ClientSendBuffer.Add(networkData);
-            _client.Send(networkData);
         }
 
         protected void WaitUntilNMessagesReceived(int count)
@@ -168,8 +129,6 @@ namespace Helios.MultiNodeTests.TestKit
 
         protected ConcurrentCircularBuffer<NetworkData> ServerReceiveBuffer { get; private set; }
 
-        private IConnection _client;
-
-        private IConnection _server;
+        public IConnection _server;
     }
 }
